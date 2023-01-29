@@ -1,10 +1,8 @@
 const express = require("express");
-const bodyParser = require("body-parser");
+const bodyParser = require("body-parser")
 const path = require("path");
 const uuid = require("./helpers/uuid");
 const fs = require("fs");
-const util = require("util");
-const {title}=require("process")
 const PORT = 3001;
 const app = express();
 
@@ -18,7 +16,6 @@ app.get("/", (req, res) => res.send("Navigate to /index or /notes"));
 //Get route for home page
 app.get("/index", (req, res) => {
   res.sendFile(path.join(__dirname, "public/index.html"));
-
   console.info(`${req.method} request received for \n/Index`);
 });
 
@@ -26,9 +23,8 @@ app.get("/index", (req, res) => {
 app.get("/notes", (req, res) => {
   res.sendFile(path.join(__dirname, "public/notes.html"));
   console.info(`${req.method} request received for\n/Notes`);
-  // return res.json(dbData);
 });
-// get route for all of the dbdata
+
 
 //API GET REQUEST
 app.get("/api/notes", (req, res) => {
@@ -42,12 +38,12 @@ app.get("/api/notes", (req, res) => {
 
 app.post("/api/notes", (req, res) => {
   console.info(`${req.method} request received to save a note`);
-  const {title, text} = req.body
+  const { title, text } = req.body;
   if (req.body) {
     const newNote = {
       title,
       text,
-      id: uuid()
+      id: uuid(),
     };
     //read data from json file
     let data = fs.readFileSync("./db/db.json", "utf-8");
@@ -63,16 +59,49 @@ app.post("/api/notes", (req, res) => {
       }
       console.log(text);
     });
-
-    console.log("success, added a new note");
-
+    console.log("added a new note");
     //send json data response
     res.json(data);
   }
 });
 
 
+
+
+
+//API DELETE
+app.delete("/api/notes/:id", (req, res) =>{
+  //READ FILE
+  let data = fs.readFileSync("./db/db.json", "utf-8")
+
+  // variable for setting up filter method
+  const dataJSON = JSON.parse(data)
+
+  //if newNote has a false value, use filter method and req.params
+  const newNote = dataJSON.filter((note)=>{
+    return note.id !== req.params.id;
+  })
+  console.log("🚀 ~ file: server.js:83 ~ newNote ~ req.params", req.params)
+  
+  fs.writeFile("./db/db.json", JSON.stringify(newNote), (err, text) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+  });
+
+  res.json(newNote)
+})
+
+
+
+
+
+
+
+
+
+
 app.listen(PORT, () =>
   console.log(`Example app listening at http://localhost:${PORT}`)
 );
-
