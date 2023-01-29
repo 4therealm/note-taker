@@ -28,8 +28,13 @@
 
 
 
-
-
+  app.get("/api/db/:title", (req, res) => {
+    const rQTitle = req.params.title.toLowerCase();
+    const filter = dbData.filter((obj) => obj.title.toLowerCase() === rQTitle);
+    if (filter.length !== 0) return res.json(filter);
+  
+    return res.json("No match found");
+  });
 
 
 //--------------------------------------------------------------GET-------------------------------------------
