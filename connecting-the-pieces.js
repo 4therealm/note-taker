@@ -44,12 +44,7 @@
     });
 //----------------------------------------Get Request (server.js)
 app.get('/api/reviews', (req, res) => {
-  // Let the client know that their request was received
-  res.json(`${req.method} request received`);
-
-  // Show the user agent information in the terminal
-  console.info(req.rawHeaders);
-
+  // Let the client know that their request was receive
   // Log our request to the terminal
   console.info(`${req.method} request received`);
 });
@@ -73,16 +68,46 @@ fetch('/api/notes', {
 
 // POST request to add a review
     // Convert the data to a string so we can save it
-    const reviewString = JSON.stringify(newReview);
-
-    // Write the string to a file
-    fs.writeFile(`./db/${newReview.product}.json`, reviewString, (err) =>
-      err
-        ? console.error(err)
-        : console.log(
-            `Review for ${newReview.product} has been written to JSON file`
-          )
-    );
+    app.post('/notes', (req, res) => {
+      // Log that a POST request was received
+      console.info(`${req.method} request received to save a note`);
+    
+      // Destructuring assignment for the items in req.body
+      const { title, text } = req.body;
+      console.log(req.body)
+    
+      // If all the required properties are present
+      if (title && text) {
+        // Variable for the object we will save
+        const newNote = {
+          title,
+          text,
+          note_id: uuid(),
+        };
+        
+        const noteStr = JSON.stringify(newNote)
+        const file = fs.readFileSync('dbData')
+        const json = JSON.parse(file.toString())
+        //add json element to json object
+        json.push(noteStr);
+        fs.writeFileSync("/notes/db", JSON.stringify(json),(err) =>
+        err
+          ? console.error(err)
+          : console.log(
+              `Review for ${newNote.title} has been written to JSON file`
+            ))
+    
+    
+            const response = {
+              status: 'success',
+              body: newNote,
+            };
+            console.log(response);
+            res.status(201).json(response);
+          } else {
+            res.status(500).json('Error in posting review');
+          }
+    })
 
 //---------------------------------Fetch description:------------------------
 fetch(resource)
