@@ -43,7 +43,7 @@ app.post("/api/notes", (req, res) => {
     const newNote = {
       title,
       text,
-      id: uuid(),
+      id: uuid()
     };
     //read data from json file
     let data = fs.readFileSync("./db/db.json", "utf-8");
