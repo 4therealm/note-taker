@@ -1,17 +1,23 @@
 const express = require("express");
-const bodyParser = require("body-parser")
 const path = require("path");
 const uuid = require("./helpers/uuid");
 const fs = require("fs");
-const PORT = 3001;
+const PORT = process.env.port || 3001;
 const app = express();
+
+
+const api = require('./routes/index.js')
+
+app.use('/api', api)
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //page navigation
 app.use(express.static("public"));
-app.get("/", (req, res) => res.send("Navigate to /index or /notes"));
+app.get("/", (req, res) => res.send("public/index.html"));
+//catch all
+app.get("*", (req, res) =>res.send("/public/404.html"));
 
 //Get route for home page
 app.get("/index", (req, res) => {
@@ -25,7 +31,6 @@ app.get("/notes", (req, res) => {
   console.info(`${req.method} request received for\n/Notes`);
 });
 
-
 //API GET REQUEST
 app.get("/api/notes", (req, res) => {
   console.log("GET notes request");
@@ -35,7 +40,7 @@ app.get("/api/notes", (req, res) => {
   //must be parsed and stringified later
   res.json(JSON.parse(data));
 });
-
+// API POST REQUEST
 app.post("/api/notes", (req, res) => {
   console.info(`${req.method} request received to save a note`);
   const { title, text } = req.body;
@@ -61,7 +66,15 @@ app.post("/api/notes", (req, res) => {
     });
     console.log("added a new note");
     //send json data response
-    res.json(data);
+      const response = {
+        status: "success",
+        body: newNote
+      }
+    // TODO: Add a comment explaining the functionality of res.json()
+    res.status(201).json(response);
+  } else {
+    // TODO: Add a comment describing the purpose of the else statement in this POST request.
+    res.status(500).json('Error in posting note');
   }
 });
 
