@@ -1,14 +1,17 @@
-# 11 Express.js: Note Taker
-https://note-application.herokuapp.com/
-https://4therealm.github.io/note-taker/
+# Note Taker  
+A note taking application where users can write, save and deletes notes.
 
 
-## Your Task
+## description
+* Assignment: #11
+* Due: 2/2/2023  
+* deployed-Github: https://4therealm.github.io/note-taker/
+* deployed-Heroku: https://note-application.herokuapp.com/
+* repo: https://github.com/4therealm/note-taker 
 
-Your assignment is to modify starter code to create an application called Note Taker that can be used to write and save notes. This application will use an Express.js back end and will save and retrieve note data from a JSON file.
-
-The application’s front end has already been created. It's your job to build the back end, connect the two, and then deploy the entire application to Heroku.
-
+* Photo
+<img src="/Assets/11-express-homework-demo-01.png" alt="note card home screen">
+<img src="/Assets/11-express-homework-demo-02.png" alt="note card editor page">
 
 ## User Story
 
@@ -39,30 +42,14 @@ WHEN I click on the Write icon in the navigation at the top of the page
 THEN I am presented with empty fields to enter a new note title and the note’s text in the right-hand column
 ```
 
+## instal  
+
+```
+npm install  
+
+```  
 
 
-## Getting Started
-
-On the back end, the application should include a `db.json` file that will be used to store and retrieve notes using the `fs` module.
-
-The following HTML routes should be created:
-
-* `GET /notes` should return the `notes.html` file.
-
-* `GET *` should return the `index.html` file.
-
-The following API routes should be created:
-
-* `GET /api/notes` should read the `db.json` file and return all saved notes as JSON.
-
-* `POST /api/notes` should receive a new note to save on the request body, add it to the `db.json` file, and then return the new note to the client. You'll need to find a way to give each note a unique id when it's saved (look into npm packages that could do this for you).
-
-
-## Bonus
-
-You haven’t learned how to handle DELETE requests, but this application offers that functionality on the front end. As a bonus, try to add the DELETE route to the application using the following guideline:
-
-* `DELETE /api/notes/:id` should receive a query parameter that contains the id of a note to delete. To delete a note, you'll need to read all notes from the `db.json` file, remove the note with the given `id` property, and then rewrite the notes to the `db.json` file.
 
 
 
