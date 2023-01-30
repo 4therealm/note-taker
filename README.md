@@ -1,4 +1,7 @@
 # 11 Express.js: Note Taker
+https://note-application.herokuapp.com/
+https://4therealm.github.io/note-taker/
+
 
 ## Your Task
 
