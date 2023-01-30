@@ -6,18 +6,15 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 
 
-const api = require('./index.js')
 
-app.use('/api', api)
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //page navigation
 app.use(express.static("public"));
-app.get("/", (req, res) => res.sendFile(path.join(__dirname, 'public/index.html')));
-//catch all
-app.get("*", (req, res) =>res.send("/public/404.html"));
+app.get("/", (req, res) => res.send("Navigate to /index or /notes"));
 
 //Get route for home page
 app.get("/index", (req, res) => {
