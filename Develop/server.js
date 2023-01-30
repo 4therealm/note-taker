@@ -2,11 +2,11 @@ const express = require("express");
 const path = require("path");
 const uuid = require("./helpers/uuid");
 const fs = require("fs");
-const PORT = process.env.port || 3001;
+const PORT = process.env.PORT || 3001;
 const app = express();
 
 
-const api = require('./routes/index.js')
+const api = require('./index.js')
 
 app.use('/api', api)
 
@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 
 //page navigation
 app.use(express.static("public"));
-app.get("/", (req, res) => res.send("public/index.html"));
+app.get("/", (req, res) => res.send("./public/index.html"));
 //catch all
 app.get("*", (req, res) =>res.send("/public/404.html"));
 
